@@ -1,0 +1,28 @@
+---
+title: "Exploring Storms"
+author: "kinsongao-bit"
+execute:
+  echo: false
+---
+
+```{r setup}
+library(tidyverse)
+suppressPackageStartupMessages()
+```
+
+## Named Storms per Year
+
+```{r storm-plot}
+storms %>%
+  filter(!is.na(name), name != "") %>%
+  distinct(year, name) %>%
+  count(year) %>%
+  ggplot(aes(x = year, y = n)) +
+  geom_col(fill = "steelblue") +
+  labs(
+    title = "Number of Named Storms per Year",
+    x = "Year",
+    y = "Named Storms"
+  ) +
+  theme_minimal()
+```

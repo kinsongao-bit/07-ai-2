@@ -1,0 +1,26 @@
+---
+title: "Exploring Storms"
+author: "KINSON GAO"
+execute:
+  echo: false
+format: html
+---
+
+```{r}
+suppressPackageStartupMessages(
+  library(tidyverse)
+)
+""
+
+storms |>
+  count(year, name = "n_storms") |>
+  ggplot(aes(x = year, y = n_storms)) +
+  geom_line() +
+  geom_point() +
+  labs(
+    title = "Named Storms per Year",
+    x = "Year",
+    y = "Number of Named Storms"
+  ) +
+  theme_minimal()
+  
