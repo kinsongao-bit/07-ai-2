@@ -6,23 +6,30 @@ execute:
 ---
 
 ```{r setup}
-library(tidyverse)
-suppressPackageStartupMessages()
+suppressPackageStartupMessages(library(tidyverse))
 ```
 
-## Named Storms per Year
+## Storm Counts by Type per Year
 
 ```{r storm-plot}
 storms %>%
-  filter(!is.na(name), name != "") %>%
-  distinct(year, name) %>%
-  count(year) %>%
-  ggplot(aes(x = year, y = n)) +
-  geom_col(fill = "steelblue") +
+  filter(status %in% c("tropical depression", "tropical storm", "hurricane")) %>%
+  distinct(year, name, status) %>%
+  count(year, status) %>%
+  ggplot(aes(x = year, y = n, fill = status)) +
+  geom_area(position = "stack", alpha = 0.8) +
+  scale_fill_manual(
+    values = c(
+      "tropical depression" = "#ADD8E6",
+      "tropical storm" = "#FFA500",
+      "hurricane" = "#8B0000"
+    ),
+    name = "Storm Type"
+  ) +
   labs(
-    title = "Number of Named Storms per Year",
+    title = "Storm Counts by Type per Year",
     x = "Year",
-    y = "Named Storms"
+    y = "Number of Storms"
   ) +
   theme_minimal()
 ```
